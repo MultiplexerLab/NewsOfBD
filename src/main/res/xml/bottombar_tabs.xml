@@ -1,0 +1,31 @@
+<tabs>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/ic_home"
+        title="Home"
+        barColorWhenSelected="@color/colorPrimaryDark"
+        />
+    <tab
+        id="@+id/tab_newspaper"
+        icon="@drawable/ic_newspaper"
+        title="Newspaper"
+        barColorWhenSelected="@color/colorPrimaryDark"
+        />
+    <tab
+        id="@+id/tab_stream"
+        icon="@drawable/ic_stream"
+        title="Stream"
+        barColorWhenSelected="@color/colorPrimaryDark"
+        />
+    <tab
+        id="@+id/tab_save"
+        icon="@drawable/ic_bookmark"
+        title="Saved News"
+        barColorWhenSelected="@color/colorPrimaryDark"
+        />
+    <tab
+        id="@+id/tab_menu"
+        icon="@drawable/ic_menu"
+        title="Menu"
+        />
+</tabs>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lab.multiplexer.NewsForMe">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <application
+        android:name=".Activity.Helper.AppController"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".Activity.Stream" />
+        <activity android:name=".Activity.Newspaper" />
+        <activity android:name=".Activity.Bookmark" />
+        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.Fullnews" />
+        <activity android:name=".Activity.Webview_news" />
+        <activity
+            android:name=".Activity.CommentActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activity.Settings" />
+        <activity android:name=".Activity.NewsPaperContent"></activity>
+        <activity
+            android:name="com.lab.multiplexer.NewsForMe.Activity.VideoPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Live TV">
+        </activity>
+        <activity
+            android:name="com.lab.multiplexer.NewsForMe.Activity.FullScreenVideoPlayerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Live TV">
+        </activity>
+        <activity
+            android:name="com.lab.multiplexer.NewsForMe.Activity.VideoSelectionActivity"
+            android:label="Live TV">
+        </activity>
+
+        <activity
+            android:name="com.lab.multiplexer.NewsForMe.Activity.AudioSelectionActivity"
+            android:label="FM radio">
+        </activity>
+        <activity
+            android:name="com.lab.multiplexer.NewsForMe.Activity.AudioPlayerActivity"
+            android:label="FM radio">
+        </activity>
+
+
+        <service
+            android:name="com.lab.multiplexer.NewsForMe.Activity.Service.MediaService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
+    </application>
+
+</manifest>
