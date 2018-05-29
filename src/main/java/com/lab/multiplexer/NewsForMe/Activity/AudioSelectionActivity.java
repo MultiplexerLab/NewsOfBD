@@ -13,13 +13,9 @@ import com.lab.multiplexer.NewsForMe.Activity.Model.Samples;
 import com.lab.multiplexer.NewsForMe.R;
 
 
-/**
- * A simple activity that allows the user to select a
- * chapter form "The Count of Monte Cristo" to play
- * (limited to chapters 1 - 4).
- */
 public class AudioSelectionActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     ListView exampleList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +27,7 @@ public class AudioSelectionActivity extends AppCompatActivity implements Adapter
         }
 
 
-         exampleList = (ListView) findViewById(R.id.selection_activity_list);
+        exampleList = (ListView) findViewById(R.id.selection_activity_list);
         exampleList.setAdapter(new SampleListAdapter(this, Samples.getAudioSamples()));
         exampleList.setOnItemClickListener(this);
     }

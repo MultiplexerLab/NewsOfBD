@@ -51,18 +51,19 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     SharedPreferences pref;
     String login_txt = "Login";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
-        if(!pref.contains("language")){
-            editor.putString("language","Bangla");
+        if (!pref.contains("language")) {
+            editor.putString("language", "Bangla");
             editor.commit();
         }
-        if(pref.contains("logged_in")){
-            if(pref.getBoolean("logged_in",true)){
+        if (pref.contains("logged_in")) {
+            if (pref.getBoolean("logged_in", true)) {
                 login_txt = "Log out";
             }
         }
@@ -70,44 +71,43 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         final TextView switchText = (TextView) toolbar.findViewById(R.id.switch_text);
-        Switch lang_switch = (Switch)toolbar.findViewById(R.id.pin);
-        if(pref.getString("language","").equals("English")){
+        Switch lang_switch = (Switch) toolbar.findViewById(R.id.pin);
+        if (pref.getString("language", "").equals("English")) {
             lang_switch.toggle();
             switchText.setText("English");
         }
         lang_switch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    Animation a = AnimationUtils.loadAnimation(MainActivity.this,R.anim.slide_in_right);
+                if (b) {
+                    Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_in_right);
                     switchText.setText("English");
                     switchText.setAnimation(a);
-                    editor.putString("language","English");
+                    editor.putString("language", "English");
                     editor.commit();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             // Write code for your refresh logic
-                            Intent i = new Intent(MainActivity.this,MainActivity.class);
+                            Intent i = new Intent(MainActivity.this, MainActivity.class);
                             startActivity(i);
-                            overridePendingTransition(0,0);
+                            overridePendingTransition(0, 0);
                             finish();
                         }
                     }, 1000);
 
                 } else {
-                    Animation a = AnimationUtils.loadAnimation(MainActivity.this,R.anim.slide_in_right);
+                    Animation a = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_in_right);
                     switchText.setText("বাংলা");
                     switchText.setAnimation(a);
-                    editor.putString("language","Bangla");
+                    editor.putString("language", "Bangla");
                     editor.commit();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            // Write code for your refresh logic
-                            Intent i = new Intent(MainActivity.this,MainActivity.class);
+                            Intent i = new Intent(MainActivity.this, MainActivity.class);
                             startActivity(i);
-                            overridePendingTransition(0,0);
+                            overridePendingTransition(0, 0);
                             finish();
                         }
                     }, 1000);
@@ -121,9 +121,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
                 if (tabId == R.id.tab_home) {
-                    // The tab with id R.id.tab_favorites was selected,
-                    // change your content accordingly.
-                    Intent i = new Intent(MainActivity.this,MainActivity.class);
+                    Intent i = new Intent(MainActivity.this, MainActivity.class);
                     startActivity(i);
                     overridePendingTransition(0, 0);
                     finish();
@@ -135,32 +133,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 if (tabId == R.id.tab_newspaper) {
-                    // The tab with id R.id.tab_favorites was selected,
-                    // change your content accordingly.
-                    Intent i = new Intent(MainActivity.this,Newspaper.class);
+                    Intent i = new Intent(MainActivity.this, Newspaper.class);
                     startActivity(i);
                     overridePendingTransition(0, 0);
                     finish();
                 }
                 if (tabId == R.id.tab_stream) {
-                    // The tab with id R.id.tab_favorites was selected,
-                    // change your content accordingly.
-                    Intent i = new Intent(MainActivity.this,Stream.class);
+                    Intent i = new Intent(MainActivity.this, Stream.class);
                     startActivity(i);
                     overridePendingTransition(0, 0);
                     finish();
                 }
                 if (tabId == R.id.tab_save) {
-                    // The tab with id R.id.tab_favorites was selected,
-                    // change your content accordingly.
-                    Intent i = new Intent(MainActivity.this,Bookmark.class);
+                    Intent i = new Intent(MainActivity.this, Bookmark.class);
                     startActivity(i);
                     overridePendingTransition(0, 0);
                     finish();
                 }
                 if (tabId == R.id.tab_menu) {
-                    // The tab with id R.id.tab_favorites was selected,
-                    // change your content accordingly.
                     fab.setVisibility(View.VISIBLE);
                     springFloatingActionMenu.setVisibility(View.VISIBLE);
                     springFloatingActionMenu.showMenu();
@@ -174,16 +164,11 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-  /*      tabLayout.setBackgroundColor(Color.parseColor("#4D8DCE"));
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));*/
-
     }
 
 
-
-    public void createFloatingMenu(){
-        //create your own FAB
-          fab = new FloatingActionButton(this);
+    public void createFloatingMenu() {
+        fab = new FloatingActionButton(this);
         fab.setType(FloatingActionButton.TYPE_NORMAL);
         fab.setImageResource(R.drawable.ic_menu);
         fab.setColorPressedResId(R.color.colorPrimaryDark);
@@ -215,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 .addMenuItem(R.color.Orange, R.drawable.ic_settings, "Settings", android.R.color.white, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent i = new Intent(MainActivity.this,Settings.class);
+                        Intent i = new Intent(MainActivity.this, Settings.class);
                         startActivity(i);
 
                     }
@@ -223,26 +208,26 @@ public class MainActivity extends AppCompatActivity {
                 .addMenuItem(R.color.Navy, R.drawable.ic_newspaper, "Newspaper", android.R.color.white, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent i = new Intent(MainActivity.this,Newspaper.class);
+                        Intent i = new Intent(MainActivity.this, Newspaper.class);
                         startActivity(i);
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
                 })
-                .addMenuItem(android.R.color.black, R.drawable.ic_bangla, pref.getString("language",""), android.R.color.white, new View.OnClickListener() {
+                .addMenuItem(android.R.color.black, R.drawable.ic_bangla, pref.getString("language", ""), android.R.color.white, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(pref.getString("language","").equals("English")){
-                            editor.putString("language","Bangla");
+                        if (pref.getString("language", "").equals("English")) {
+                            editor.putString("language", "Bangla");
                             editor.commit();
                         } else {
-                            editor.putString("language","English");
+                            editor.putString("language", "English");
                             editor.commit();
                         }
-                        Intent i = new Intent(MainActivity.this,MainActivity.class);
+                        Intent i = new Intent(MainActivity.this, MainActivity.class);
                         startActivity(i);
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
                 })
                 .addMenuItem(R.color.pink, R.drawable.ic_rate_us, "Rate Us", android.R.color.white, new View.OnClickListener() {
@@ -252,28 +237,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
 
-
-                //you can choose menu layout animation
-                //设置动画类型
                 .animationType(SpringFloatingActionMenu.ANIMATION_TYPE_TUMBLR)
-                //setup reveal color while the menu opening
-                //设置reveal效果的颜色
                 .revealColor(R.color.colorPrimary)
-                //set FAB location, only support bottom center and bottom right
-                //设置FAB的位置,只支持底部居中和右下角的位置
                 .gravity(Gravity.RIGHT | Gravity.BOTTOM)
                 .onMenuActionListner(new OnMenuActionListener() {
                     @Override
                     public void onMenuOpen() {
-                        //set FAB icon when the menu opened
-                        //设置FAB的icon当菜单打开的时候
                         fab.setImageResource(R.drawable.ic_delete);
                     }
 
                     @Override
                     public void onMenuClose() {
-                        //set back FAB icon when the menu closed
-                        //设置回FAB的图标当菜单关闭的时候
                         fab.setImageResource(R.drawable.ic_menu);
                         springFloatingActionMenu.setVisibility(View.GONE);
                         fab.setVisibility(View.GONE);
@@ -287,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        if(pref.getString("language","").equals("Bangla")){
+        if (pref.getString("language", "").equals("Bangla")) {
             adapter.addFragment(new Highlights(), "হাইলাইটস");
             adapter.addFragment(new Bangladesh(), "বাংলাদেশ");
             adapter.addFragment(new International(), "আন্তর্জাতিক");
@@ -312,9 +286,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.addFragment(new Entertainment(), "Entertainment");
             viewPager.setAdapter(adapter);
         }
-
     }
-
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -351,11 +323,8 @@ public class MainActivity extends AppCompatActivity {
             springFloatingActionMenu.hideMenu();
             springFloatingActionMenu.setVisibility(View.GONE);
             fab.setVisibility(View.GONE);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
-
-
-
 }

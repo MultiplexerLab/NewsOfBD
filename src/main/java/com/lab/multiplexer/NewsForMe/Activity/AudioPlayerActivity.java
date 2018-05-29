@@ -27,11 +27,6 @@ import com.squareup.picasso.Picasso;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * An example activity to show how to implement and audio UI
- * that interacts with the {@link com.devbrackets.android.playlistcore.service.BasePlaylistService}
- * and {@link com.devbrackets.android.playlistcore.manager.BasePlaylistManager} classes.
- */
 public class AudioPlayerActivity extends AppCompatActivity implements PlaylistListener<MediaItem>, ProgressListener {
     public static final String EXTRA_INDEX = "EXTRA_INDEX";
     public static final int PLAYLIST_ID = 4; //Arbitrary, for the example
@@ -136,7 +131,7 @@ public class AudioPlayerActivity extends AppCompatActivity implements PlaylistLi
 
         if (!userInteracting) {
             seekBar.setSecondaryProgress((int) (progress.getDuration() * progress.getBufferPercentFloat()));
-            seekBar.setProgress((int)progress.getPosition());
+            seekBar.setProgress((int) progress.getPosition());
             currentPositionView.setText(TimeFormatUtil.formatMs(progress.getPosition()));
         }
 
@@ -163,19 +158,11 @@ public class AudioPlayerActivity extends AppCompatActivity implements PlaylistLi
         }
     }
 
-    /**
-     * Retrieves the extra associated with the selected playlist index
-     * so that we can start playing the correct item.
-     */
     private void retrieveExtras() {
         Bundle extras = getIntent().getExtras();
         selectedIndex = extras.getInt(EXTRA_INDEX, 0);
     }
 
-    /**
-     * Performs the initialization of the views and any other
-     * general setup
-     */
     private void init() {
         retrieveViews();
         setupListeners();
@@ -186,73 +173,40 @@ public class AudioPlayerActivity extends AppCompatActivity implements PlaylistLi
         startPlayback(generatedPlaylist);
     }
 
-
-    /**
-     * Called when we receive a notification that the current item is
-     * done loading.  This will then update the view visibilities and
-     * states accordingly.
-     *
-     * @param isPlaying True if the audio item is currently playing
-     */
     private void doneLoading(boolean isPlaying) {
         loadCompleted();
         updatePlayPauseImage(isPlaying);
     }
 
-    /**
-     * Updates the Play/Pause image to represent the correct playback state
-     *
-     * @param isPlaying True if the audio item is currently playing
-     */
     private void updatePlayPauseImage(boolean isPlaying) {
         int resId = isPlaying ? R.drawable.playlistcore_ic_pause_black : R.drawable.playlistcore_ic_play_arrow_black;
         playPauseButton.setImageResource(resId);
     }
 
-    /**
-     * Used to inform the controls to finalize their setup.  This
-     * means replacing the loading animation with the PlayPause button
-     */
     public void loadCompleted() {
         playPauseButton.setVisibility(View.VISIBLE);
         previousButton.setVisibility(View.VISIBLE);
-        nextButton.setVisibility(View.VISIBLE );
+        nextButton.setVisibility(View.VISIBLE);
 
         loadingBar.setVisibility(View.INVISIBLE);
     }
 
-    /**
-     * Used to inform the controls to return to the loading stage.
-     * This is the opposite of {@link #loadCompleted()}
-     */
     public void restartLoading() {
         playPauseButton.setVisibility(View.INVISIBLE);
         previousButton.setVisibility(View.INVISIBLE);
-        nextButton.setVisibility(View.INVISIBLE );
+        nextButton.setVisibility(View.INVISIBLE);
 
         loadingBar.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * Sets the {@link #seekBar}s max and updates the duration text
-     *
-     * @param duration The duration of the media item in milliseconds
-     */
     private void setDuration(long duration) {
-        seekBar.setMax((int)duration);
+        seekBar.setMax((int) duration);
         durationView.setText(TimeFormatUtil.formatMs(duration));
     }
 
-    /**
-     * Retrieves the playlist instance and performs any generation
-     * of content if it hasn't already been performed.
-     *
-     * @return True if the content was generated
-     */
     private boolean setupPlaylistManager() {
         playlistManager = AppController.getPlaylistManager();
 
-        //There is nothing to do if the currently playing values are the same
         if (playlistManager.getId() == PLAYLIST_ID) {
             return false;
         }
@@ -269,29 +223,20 @@ public class AudioPlayerActivity extends AppCompatActivity implements PlaylistLi
         return true;
     }
 
-    /**
-     * Populates the class variables with the views created from the
-     * xml layout file.
-     */
     private void retrieveViews() {
-        loadingBar = (ProgressBar)findViewById(R.id.audio_player_loading);
-        artworkView = (ImageView)findViewById(R.id.audio_player_image);
+        loadingBar = (ProgressBar) findViewById(R.id.audio_player_loading);
+        artworkView = (ImageView) findViewById(R.id.audio_player_image);
 
-        currentPositionView = (TextView)findViewById(R.id.audio_player_position);
-        durationView = (TextView)findViewById(R.id.audio_player_duration);
+        currentPositionView = (TextView) findViewById(R.id.audio_player_position);
+        durationView = (TextView) findViewById(R.id.audio_player_duration);
 
-        seekBar = (SeekBar)findViewById(R.id.audio_player_seek);
+        seekBar = (SeekBar) findViewById(R.id.audio_player_seek);
 
-        previousButton = (ImageButton)findViewById(R.id.audio_player_previous);
-        playPauseButton = (ImageButton)findViewById(R.id.audio_player_play_pause);
-        nextButton = (ImageButton)findViewById(R.id.audio_player_next);
+        previousButton = (ImageButton) findViewById(R.id.audio_player_previous);
+        playPauseButton = (ImageButton) findViewById(R.id.audio_player_play_pause);
+        nextButton = (ImageButton) findViewById(R.id.audio_player_next);
     }
 
-    /**
-     * Links the SeekBarChanged to the {@link #seekBar} and
-     * onClickListeners to the media buttons that call the appropriate
-     * invoke methods in the {@link #playlistManager}
-     */
     private void setupListeners() {
         seekBar.setOnSeekBarChangeListener(new SeekBarChanged());
 
@@ -317,11 +262,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements PlaylistLi
         });
     }
 
-    /**
-     * Starts the audio playback if necessary.
-     *
-     * @param forceStart True if the audio should be started from the beginning even if it is currently playing
-     */
     private void startPlayback(boolean forceStart) {
         //If we are changing audio files, or we haven't played before then start the playback
         if (forceStart || playlistManager.getCurrentPosition() != selectedIndex) {
@@ -330,9 +270,6 @@ public class AudioPlayerActivity extends AppCompatActivity implements PlaylistLi
         }
     }
 
-    /**
-     * Listens to the seek bar change events and correctly handles the changes
-     */
     private class SeekBarChanged implements SeekBar.OnSeekBarChangeListener {
         private int seekPosition = -1;
 

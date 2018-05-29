@@ -36,18 +36,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by USER on 3/11/2017.
+ * Created by Miral in 3/11/2017.
  */
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginButton loginButton;
     private CallbackManager callbackManager;
-    String name,dp;
+    String name, dp;
     ProgressDialog prog_dialog;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     String accessToken;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,16 +58,10 @@ public class LoginActivity extends AppCompatActivity {
         editor = pref.edit();
         setContentView(R.layout.login_activity);
         loginButton = (LoginButton) findViewById(R.id.login_button);
-        if(isNetworkAvailable()){
+        if (isNetworkAvailable()) {
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-               /* Toast.makeText(LoginActivity.this, "User ID: "
-                        + loginResult.getAccessToken().getUserId()
-                        + "\n" +
-                        "Auth Token: "
-                        + loginResult.getAccessToken().getToken(), Toast.LENGTH_LONG);*/
-
                     accessToken = loginResult.getAccessToken().getToken();
                     Log.i("accessToken", accessToken);
 
@@ -74,89 +69,45 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onCompleted(JSONObject object, GraphResponse response) {
                             Log.i("LoginActivity", response.toString());
-                            // Get facebook data from login
-
                             Bundle bFacebookData = getFacebookData(object);
                             name = bFacebookData.getString("first_name") + " " + bFacebookData.getString("last_name");
-                            if(!bFacebookData.containsKey("email")){
+                            if (!bFacebookData.containsKey("email")) {
                                 Log.i("email", "null");
                                 prog_dialog = ProgressDialog.show(LoginActivity.this, "",
                                         "Please wait...", true);
                                 prog_dialog.setCancelable(false);
                                 prog_dialog.show();
-                                loginAuth(name,"No email available",dp,bFacebookData.getString("idFacebook"));
-                            }else {
+                                loginAuth(name, "No email available", dp, bFacebookData.getString("idFacebook"));
+                            } else {
                                 prog_dialog = ProgressDialog.show(LoginActivity.this, "",
                                         "Please wait...", true);
                                 prog_dialog.setCancelable(false);
                                 prog_dialog.show();
                                 Log.i("email", bFacebookData.getString("email"));
-                                loginAuth(name,bFacebookData.getString("email"),dp,bFacebookData.getString("idFacebook"));
+                                loginAuth(name, bFacebookData.getString("email"), dp, bFacebookData.getString("idFacebook"));
                             }
-
-                       /* editor.putString("user_id", bFacebookData.getString("idFacebook"));
-                        editor.putString("name", name);
-                        editor.putBoolean("status", true);
-                        editor.commit();
-                        // db.insertUser(name, bFacebookData.getString("email"), bFacebookData.getString("idFacebook"),0,0);
-                        Log.i("Bundle Data", bFacebookData.getString("first_name") + bFacebookData.getString("email") + bFacebookData.getString("idFacebook"));
-                        String email = bFacebookData.getString("email");
-                        String device_id = Settings.Secure.getString(MainActivity.this.getContentResolver(),
-                                Settings.Secure.ANDROID_ID);
-                        if (email != null) {
-                            backEndUserDataSending(name, bFacebookData.getString("email"), bFacebookData.getString("idFacebook"), 0, profilePicUrl, device_id);
-                        } else if (profilePicUrl == null || profilePicUrl.equals("")) {
-                            backEndUserDataSending(name, bFacebookData.getString("email"), bFacebookData.getString("idFacebook"), 0, "No Image", device_id);
-                        } else {
-                            backEndUserDataSending(name, "No Email", bFacebookData.getString("idFacebook"), 0, profilePicUrl, device_id);
-                        }
-
-                        editor.putString("photo_url", profilePicUrl);
-                        editor.commit();*/
-
-                            // backEndUserDataSending(name, bFacebookData.getString("email"), bFacebookData.getString("idFacebook"), 0);
-                                               /* Intent playIntent = new Intent(MainActivity.this, MainActivityPlay.class);
-                                                Log.actual_score("Intent", "Dhur");
-                                                startActivity(playIntent);
-                                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                                finish();*/
                         }
                     });
                     Bundle parameters = new Bundle();
                     parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location");
                     request.setParameters(parameters);
                     request.executeAsync();
-
-
-                                        /*if (!db.checkQuestionTableData()) {
-                                            new MainActivity.databaseWork().execute();
-
-                                        }
-                                        else {
-                                            Intent playIntent = new Intent(MainActivity.this, MainActivityPlay.class);
-                                            startActivity(playIntent);
-                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                            finish();
-                                        }*/
                 }
 
                 @Override
                 public void onCancel() {
                     Toast.makeText(LoginActivity.this, "Login attempt canceled.", Toast.LENGTH_LONG);
-
                 }
 
                 @Override
                 public void onError(FacebookException e) {
                     Toast.makeText(LoginActivity.this, "Login attempt Failed.", Toast.LENGTH_LONG);
-
                 }
             });
 
         } else {
-            Toast.makeText(this,"Please turn on your internet first",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please turn on your internet first", Toast.LENGTH_LONG).show();
         }
-
     }
 
     private Bundle getFacebookData(JSONObject object) {
@@ -166,7 +117,6 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=200");
-                // profilePicUrl = profile_pic + "";
                 Log.i("profile_pic", profile_pic + "");
                 dp = profile_pic.toString();
                 bundle.putString("profile_pic", profile_pic.toString());
@@ -193,7 +143,6 @@ public class LoginActivity extends AppCompatActivity {
         return bundle;
     }
 
-
     private void loginAuth(final String method_name, final String email, final String prof_picture_link, final String fb_profile_id) {
 
         StringRequest strReq = new StringRequest(Request.Method.POST, EndPoints.AUTH_LINK,
@@ -203,37 +152,29 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("Response", response.toString());
                         try {
-                            if(prog_dialog.isShowing()){
+                            if (prog_dialog.isShowing()) {
                                 prog_dialog.dismiss();
                             }
                             JSONObject obj = new JSONObject(response);
                             String getMessageFromServer = obj.getString("message");
                             String user_id = obj.getString("user_id");
-                            editor.putBoolean("logged_in",true);
-                            editor.putString("user_id",user_id);
+                            editor.putBoolean("logged_in", true);
+                            editor.putString("user_id", user_id);
                             editor.commit();
                             finish();
-                            /*if (getMessageFromServer.equals("User Already Exist")) {
-                               //next step
-                            } else {
-                               //next step
-                            }*/
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("local Reg", "Error: " + error.getMessage());
-                if(prog_dialog.isShowing()){
+                if (prog_dialog.isShowing()) {
                     prog_dialog.dismiss();
                 }
                 Toast.makeText(getApplicationContext(), "Please check your internet connection", Toast.LENGTH_SHORT).show();
-                //  progressBar.setVisibility(View.GONE);
             }
         }) {
 
@@ -245,17 +186,11 @@ public class LoginActivity extends AppCompatActivity {
                 params.put("email", email);
                 params.put("fb_profile_id", fb_profile_id);
                 Log.i("Posting params: ", params.toString());
-
                 return params;
             }
-
         };
-
-
         AppController.getInstance().addToRequestQueue(strReq, " ");
     }
-
-
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -272,8 +207,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        if(accessToken==null){
-            editor.putBoolean("logged_in",false);
+        if (accessToken == null) {
+            editor.putBoolean("logged_in", false);
             editor.remove("user_id");
             editor.commit();
         }
